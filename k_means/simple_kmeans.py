@@ -6,7 +6,8 @@
 '''
 import random
 import math
-from k_means import draw_points_cluster
+#from k_means import draw_points_cluster
+import draw_points_cluster
 class KmeansDemo(object):
 
     def __init__(self,raw_data):
