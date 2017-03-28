@@ -1,7 +1,7 @@
 '''
     实现一个简单的k-means算法，对二维平面上的点（x，y)进行聚类
     为后续实现复杂场景打个基础
-    data source: 30个二维平面上的点（x,y) { 0< x <200,0<y<200},从文件data.txt读取
+    data source: 100个二维平面上的点（x,y) { 0< x <200,0<y<200},从文件data.txt读取
     target:聚成4类
 '''
 import random
@@ -74,21 +74,16 @@ class KmeansDemo(object):
             else:
                 next_centroids.append(centroids[int(res[0])])
 
-        return next_centroids,result
+        return next_centroids, result
 
-
-
-
-
-
-    def _get_init_points(self,cluster_num):
+    def _get_init_points(self, cluster_num):
         init_points =[]
         for x in range(cluster_num):
             point = self.stand_data[random.randint(0,len(self.stand_data)-1)]
             init_points.append(point)
         return init_points
 
-    def _stand(self,pos):
+    def _stand(self, pos):
         return float(pos)/200
 
     def _get_stand_data(self):
