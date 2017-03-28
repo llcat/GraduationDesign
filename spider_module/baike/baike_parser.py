@@ -1,8 +1,8 @@
-'''
+"""
     百科爬虫解析器
     1.提取inner链接,保存在list中
     2.提取内容,因为后续要做高频词汇的提取,所以我这次需要提取更多的内容,不再仅仅提取简介呢
-'''
+"""
 import re
 from bs4 import BeautifulSoup
 
@@ -20,7 +20,7 @@ class BKParser(object):
         regex1 = r"/item/.*"
         regex2 = r"/view/\d+\.htm"
         result1 = self.soup.find_all("a", href=re.compile(regex1))
-        result2 = self.soup.find_all("a", href= re.compile(regex2))
+        result2 = self.soup.find_all("a", href=re.compile(regex2))
         return result1, result2
 
     # 取得标题和内容
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     bkspyder.add_task_list(urls)
     bkspyder.download()
     r = bkspyder.get_result_list()
-    bkparser = BKParser(r[1], "lxml")
+    bkparser = BKParser(r[1]['body'], "lxml")
     res1, res2 = bkparser.get_inner_link()
     for a in res1[:20]:
         print(a['href'])

@@ -1,18 +1,18 @@
-'''
+"""
     通用工具
-    1.提取某个标签中的全部文本如<header></header>信息
-'''
+    1.get_tag:提取某个标签中的全部文本如<header></header>信息
+    2.format_url:对待添加到到数据库中的url做一些格式化处理
+"""
 
 import re
 from urllib import parse
+
 
 # tag可以是html中的任一标签,先截取一段在使用bs4解析应该会快些
 # 使用正则表达式非贪婪匹配提取,也就是说如果有多个相同的标签
 # 这个函数只会提取匹配到的第一个标签
 # input: tag:str default = "html" (tag = "body","div","a"....)
 # return:返回这颗标签的dom树,如果没有找到或者content本身为空,返回NoneType
-
-
 def get_tag(content, tag="html"):
     if content is not None and content is not "":
         regex_str = r"<"+tag+".*?</"+tag+">"
@@ -25,9 +25,8 @@ def get_tag(content, tag="html"):
     else:
         return None
 
+
 # 转换一些进行了url编码的链接,并加上base_url
-
-
 def format_url(base, url):
     new_url = parse.unquote(url)
     formatted = parse.urljoin(base, new_url)
