@@ -54,4 +54,4 @@ if __name__ == "__main__":
     bkspyder.add_task_list(target_urls)
     bkspyder.download()
     r = bkspyder.get_result_list()
-    print(format(r[0]))
+    print(r[0]['body'])

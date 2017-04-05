@@ -32,3 +32,10 @@ def format_url(base, url):
     formatted = parse.urljoin(base, new_url)
     return formatted
 
+
+def get_formatted_urls(base, urls):
+    result = []
+    for url in urls:
+        formatted = format_url(base, url)
+        result.append(formatted)
+    return result

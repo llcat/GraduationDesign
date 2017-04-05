@@ -1,4 +1,4 @@
 
-__author__ = 'plyu'
+__author__ = 'pl_yu'
 __version__ = '0.1'
-__descript__ = 'baike spyder,one moudle in graduation design'
+__description__ = 'bai_ke spider,one module in graduation design'
