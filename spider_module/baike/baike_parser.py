@@ -19,11 +19,14 @@ class BKParser(object):
     # 2. href = /view/1703056.htm
     # 这可能对我们的去重造成困扰,可能导致词条有两个的url,我们可能会爬了重复的页面,所以后期我们在实际存数据库的时候还是给词条的title建立唯一索引
     def get_inner_link(self):
+        result = []
         regex1 = r"/item/.*"
         # regex2 = r"/view/\d+\.htm"
         result1 = self.soup.find_all("a", href=re.compile(regex1))
         # result2 = self.soup.find_all("a", href=re.compile(regex2))
-        return result1  # , result2
+        for res in result1:
+            result.append(res['href'])
+        return result  # , result2
 
     # 取得标题和内容
     def get_content(self):
@@ -55,12 +58,12 @@ if __name__ == "__main__":
     bkspyder.download()
     r = bkspyder.get_result_list()
     bkparser = BKParser(r[0]['url'], r[0]['body'], "lxml")
-    res1, res2 = bkparser.get_inner_link()
+    res1 = bkparser.get_inner_link()
     for a in res1[:20]:
         print(a['href'])
         # print(type(a['href']))
         # print(p.unquote(a['href']))
-        print(ctool.format_url("http://baike.baidu.com/item", a['href']))
+        print(ctool.format_url("http://baike.baidu.com/item/ypl/ss", a['href']))
     t, c, url = bkparser.get_content()
     print(t)
     print(c)

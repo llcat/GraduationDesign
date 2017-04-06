@@ -31,16 +31,17 @@ class BKPersistenceTool(object):
     def add_new_urls(self, urls):
         filtered_urls = []
         if urls is not None:
-            for url in urls:
+            for url in set(urls):
                 if self.is_crawled(url):
                     pass
+                    # print("%s is crawled" % url)
                 else:
                     filtered_urls.append(url)
         for f_url in filtered_urls:
             try:
                 self.coll_new_url.insert_one({"new_url": f_url})
             except Exception as e:
-                print("add_new_url:", e.args)
+                print("in add_new_url:", e.args)
                 continue
 
     # 判断一个url是否被爬取过,或者已经存在
@@ -72,7 +73,7 @@ class BKPersistenceTool(object):
                 self.add_old_url(task['new_url'])
                 self.coll_new_url.delete_one(task)
             except Exception as e:
-                print(e.args)
+                print("in get_task_list: ", e.args)
                 continue
         return task_list
 
@@ -82,7 +83,7 @@ class BKPersistenceTool(object):
         try:
             self.coll_content.insert_one(content)
         except Exception as e:
-            print(e.args)
+            print("in add_content", e.args)
             return False
         return True
 
@@ -90,7 +91,7 @@ class BKPersistenceTool(object):
         try:
             self.coll_old_url.insert_one({'old_url': url})
         except Exception as e:
-            print(e.args)
+            print("in add_old_urls: ", e.args)
 
 
 if __name__ == "__main__":

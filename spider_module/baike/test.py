@@ -62,7 +62,7 @@ def pipe_end(conn_end, wait=0, flag=0):
         conn_end.send(flag)
 
 
-def task_producer(d_ques):
+def task_producer(d_ques, count, tasks):
     def generate_list():
         return [random.randint(1, 10)]*5
 
@@ -74,6 +74,8 @@ def task_producer(d_ques):
                 flag = d_qu['send_q'].get(block=False)
                 if flag is True:
                     d_qu['recv_q'].put(generate_list())
+                    count.value += 1
+                    print("tasks:",tasks)
             except Exception as e:
                 continue
 
@@ -119,9 +121,11 @@ if __name__ == "__main__":
     # 当消费者消耗完资源,向生产者请求新的url时,必须等待生产者监听的其他消费者也给他发送请求信息.
     # 所以我们用Queue来传递消息
     r = Manager().list()
+    count = Manager().Value("count", 0)
+    tks = 10
     print(type(r))
     d_queues = [{"send_q": Queue(4), "recv_q": Queue(4)}]*3
-    producer = Process(target=task_producer, args=(d_queues,))
+    producer = Process(target=task_producer, args=(d_queues, count, tks))
     producer.start()
     wait = 5
     print(len(d_queues))
@@ -141,5 +145,6 @@ if __name__ == "__main__":
             time.sleep(20)
             print("in main print", r.pop())
             print("after:", len(r))
+            print("count generate", count.value)
         else:
             pass
