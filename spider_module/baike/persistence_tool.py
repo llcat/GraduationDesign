@@ -83,7 +83,7 @@ class BKPersistenceTool(object):
         try:
             self.coll_content.insert_one(content)
         except Exception as e:
-            print("in add_content", e.args)
+            print("in add_content", "url: ", content['url'], e.args)
             return False
         return True
 
@@ -120,6 +120,11 @@ if __name__ == "__main__":
         {
             "title": "Pyyy",
             "content": "sssssssssssdada汗大大打算大外都会以和",
+            "url": "www.sda.com"
+        },
+        {
+            "title": "err",
+            "content": "",
             "url": "www.sda.com"
         }
     ]

@@ -33,6 +33,11 @@ class BKDownLoader(object):
                     content['url'] = url
                     if content['body'] is not None:
                         self._content_list.append(content)
+                    else:
+                        print("the %s is missing,check miss.txt" % url)
+                        with open("miss.txt", "a") as f:
+                            f.write(url+"\n")
+
                 except Exception as e:
                     print(e.args)
                     continue
