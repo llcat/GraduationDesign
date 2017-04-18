@@ -39,3 +39,39 @@ def get_formatted_urls(base, urls):
         formatted = format_url(base, url)
         result.append(formatted)
     return result
+
+
+# 要取得历史浏览次数(pv)
+# 需要参数newLemmaIdEnc & r(random值)来取得
+# 而其中的newLemmaIdEnc是在js文件中初始化的,所以我们现在使用正则从js文件中提取
+def get_newlemmaid_enc(content):
+    regex = r'newLemmaIdEnc:"[a-z0-9]{24}"'
+    match = re.search(re.compile(regex), content)
+    if match is not None:
+        result = match.group()
+        result = result.split(":")
+        return result[1][1:-1]
+    else:
+        return "null"
+
+
+def get_newlemma_id(content):
+    regex = r'newLemmaId:"\d+"'
+    match = re.search(re.compile(regex), content)
+    if match is not None:
+        result = match.group()
+        result = result.split(":")
+        return result[1][1:-1]
+    else:
+        return "null"
+
+
+
+if __name__ == "__main__":
+    from spider_module.baike import baike_downloader as bkd
+    down = bkd.BKDownLoader()
+    down.add_task_list(['http://baike.baidu.com/item/%E5%9C%B0%E4%B8%8B%E4%B9%90%E5%9B%A2'])
+    url = 'http://baike.baidu.com/item/%E5%9C%B0%E4%B8%8B%E4%B9%90%E5%9B%A2'
+    raw = down.download_raw(url)
+    get_newlemmaid_enc(raw)
+    get_newlemma_id(raw)

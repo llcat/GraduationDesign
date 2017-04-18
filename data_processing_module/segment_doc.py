@@ -1,6 +1,9 @@
 """
     1.应该提取名词作为作为词条的特征值
-    2.对于
+    2.对于有的词条来说,可能有很多高频词,而有的很少,现阶段我们
+      取的范围相对大些,后期在做细化
+    3.根据提议,需要修改抓取的内容,增加新的信息
+        3.1
 """
 
 from pymongo import MongoClient as mongoc
@@ -12,25 +15,27 @@ class DBUtil(object):
         self.client = mongoc()
         self.db = self.client['spider_module_data']
         self.coll_content = self.db['content']
-        self.coll_segmented_doc = self.db['seg_doc']
+        # self.coll_segmented_doc = self.db['seg_doc']
 
     def get_contents(self, index=0, quantity=1):
         q_results = self.coll_content.find({}, skip=index, limit=quantity)
         return [content for content in q_results]
 
-    def add_freq_words(self, data):
+    def add_freq_word(self, data):
         """
         :param data:
          data = {
-                    'title': title
-                    'words':{
-                                word: count,
-                                ...
-                            }
+                    'content_id': ObjectId()
+                    'freq_words':[]
                 }
-        :return:
+        :return:是否插入成功
         """
-        pass
+        try:
+            self.coll_segmented_doc.insert_one(data)
+            return True
+        except Exception as e:
+            print("in add freq word", e.args)
+            return False
 
 
 def seg_frequent_words(doc, **kargs):
@@ -42,7 +47,7 @@ def seg_frequent_words(doc, **kargs):
             allows:[] - default ['n'], ['n','v','adj',......]
     :return: 按照词频排列的list
     """
-    top =8
+    top = 8
     freq = 10
     allows = ['n']
     for key in kargs:
@@ -73,9 +78,16 @@ def seg_frequent_words(doc, **kargs):
         return s_items
 
 
-db_util = DBUtil()
-q = db_util.get_contents(6)
-do = q[0]['content']
-print(q[0]['title'])
-l = seg_frequent_words(do,)
-print(l)
+if __name__ == "__main__":
+    db_util = DBUtil()
+    q = db_util.get_contents(6)
+    do = q[0]['content']
+    print(q[0]['title'])
+    l = seg_frequent_words(do,)
+    db_util.coll_segmented_doc.insert_one({'freq_words': l})
+    print(l)
+    cursor = db_util.coll_segmented_doc.find_one({})
+    print(cursor['freq_words'])
+    for c in cursor['freq_words']:
+        print(type(c))
+        print(c)

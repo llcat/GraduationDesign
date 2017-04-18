@@ -1,0 +1,8 @@
+# 忽略GraduationDesign目录下的.idea文件夹
+/.idea/*
+
+# 忽略一级模块下的__pycache__/目录
+*/__pycache__/
+
+# 忽略二级模块下的__pycache__/目录
+*/*/__pycache__/
