@@ -18,6 +18,7 @@ from spider_module.baike.common_tool import *
 from multiprocessing import Manager, Process, Queue, Lock
 import os
 import time
+import random
 
 class BKDispatcher(object):
 
@@ -25,17 +26,12 @@ class BKDispatcher(object):
         self.completed_list = Manager().list()
         self.p_tool = BKPersistenceTool()
 
-    def parser(self, d_url, content):
-        parser = BKParser(d_url, content, "lxml")
-        title, content, url = parser.get_content()
-        data = {
-            "title": title,
-            "url": url,
-            "content": content
-        }
+    def parser(self, lemma_content):
+        parser = BKParser(lemma_content, "lxml")
+        data = parser.get_content()
         self.p_tool.add_content(data)
         urls = parser.get_inner_link()
-        formatted = get_formatted_urls(d_url, urls)
+        formatted = get_formatted_urls(lemma_content['lemma_url'], urls)
         self.p_tool.add_new_urls(formatted)
 
     # url生产者进程
@@ -88,7 +84,7 @@ class BKDispatcher(object):
                 break
             else:
                 if len(mess_obj) > 0:
-                    time.sleep(5)
+                    time.sleep(random.randint(1, 3))
                     downloader.add_task_list(mess_obj)
                     downloader.download()
                     results = downloader.get_result_list()
@@ -134,7 +130,7 @@ class BKDispatcher(object):
             while True:
                 if len(self.completed_list) > 0:
                     content = self.completed_list.pop()
-                    self.parser(content['url'], content['body'])
+                    self.parser(content)
                 if len(self.completed_list) == 0:
                     # 首先检查manager是否还在运行
                     # 如果还在运行,直接continue
@@ -153,6 +149,6 @@ class BKDispatcher(object):
 
 if __name__ == "__main__":
     dispatcher = BKDispatcher()
-    dispatcher.start(10000)
+    dispatcher.start(50000)
 
 

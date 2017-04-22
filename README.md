@@ -47,16 +47,14 @@ HMM(隐马尔可夫模型)及viterbi算法:
 {
 	"_id" :
 	\\唯一索引
-	"lemma_id" :
-	"url" : 
+	"new_url" : 
 }
 
 \\ old_urls
 {	
 	"_id" :
 	\\唯一索引
-	"lemma_id" :
-	"url" : 
+	"old_url" : 
 }
 \\ lemma_contents
 {	
@@ -68,7 +66,7 @@ HMM(隐马尔可夫模型)及viterbi算法:
 	"lemmaid_enc" :
 	"lemma_paras" :
 	"lemma_freq_words" :
-	"tags" : ['tag_a','tag_b']
+	"lemma_tags" : ['tag_a','tag_b']
 	"like_count":
 	"share_count":
 	"history_view_count":
@@ -89,6 +87,10 @@ HMM(隐马尔可夫模型)及viterbi算法:
 }
 ```
     
+**进度-week5(04/17 - 04/23)**
+
+ 
+
 **暂定目标**
 
 - 编写爬虫收集网页数据

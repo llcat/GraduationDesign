@@ -20,10 +20,10 @@ class BKPersistenceTool(object):
             self.db = self.client['spider_module_data']
             self.coll_new_url = self.db['new_urls']
             self.coll_old_url = self.db['old_urls']
-            self.coll_content = self.db['content']
+            self.coll_content = self.db['lemma_contents']
             self.coll_new_url.create_index([("new_url", pymongo.ASCENDING)], unique=True)
             self.coll_old_url.create_index([("old_url", pymongo.ASCENDING)], unique=True)
-            self.coll_content.create_index([("title", pymongo.ASCENDING)], unique=True)
+            self.coll_content.create_index([("lemma_id", pymongo.ASCENDING)], unique=True)
         except Exception as e:
             print(e.args)
 
@@ -83,7 +83,7 @@ class BKPersistenceTool(object):
         try:
             self.coll_content.insert_one(content)
         except Exception as e:
-            print("in add_content", "url: ", content['url'], e.args)
+            print("in add_content", "lemma_id: ", content['lemma_id'], "\n", "url: ", content['lemma_url'], "\n", e.args)
             return False
         return True
 
@@ -93,6 +93,12 @@ class BKPersistenceTool(object):
         except Exception as e:
             print("in add_old_urls: ", e.args)
 
+    # 先前抓取过得url需要重新抓取，将old_urls中的数据转移到new_urls中
+    def mv_old_new(self):
+        count = self.coll_old_url.count()
+        for i in range(count):
+            f_dr = self.coll_old_url.find_one_and_delete({})
+            self.coll_new_url.insert_one({'new_url': f_dr['old_url']})
 
 if __name__ == "__main__":
     bkp = BKPersistenceTool()
@@ -101,11 +107,11 @@ if __name__ == "__main__":
                  "www.11.com",
                  "www.33.com",
                  "www.44.com"]
-    bkp.add_new_urls(urls_test)
-    r1 = bkp.get_task_list(3)
-    for i in r1:
-        print(i)
-    print(bkp.coll_new_url.count({}))
+    # bkp.add_new_urls(urls_test)
+    # r1 = bkp.get_task_list(3)
+    # for i in r1:
+    #     print(i)
+    # print(bkp.coll_new_url.count({}))
     content_list_test = [
         {
             "title": "Pyy",
@@ -128,8 +134,8 @@ if __name__ == "__main__":
             "url": "www.sda.com"
         }
     ]
-    for content_test in content_list_test:
-        bkp.add_content(content_test)
+    # for content_test in content_list_test:
+    #     bkp.add_content(content_test)
     # r2 = bkp.get_task_list(4)
     # test_db = bkp.client['test']
     # test_coll = test_db['name']
@@ -144,3 +150,4 @@ if __name__ == "__main__":
     # result = test_coll.find({}, limit=3)
     # for r in result:
     #     test_coll.delete_one(r)
+    bkp.mv_old_new()

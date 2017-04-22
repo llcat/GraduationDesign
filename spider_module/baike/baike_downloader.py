@@ -4,6 +4,14 @@
     input: wanted download url
     output: return the static web page content
     每个下载器管理自己需要下载的url,所需url由urlmanager分发
+    ADD:
+        更改lemma_id为唯一键时，有几种情况：
+        有的内链 <a>tag含有属性 data-lemma-id
+        <a target="_blank" href="/item/%E6%BA%90%E4%BB%A3%E7%A0%81/3969" data-lemmaid="3969">源代码</a>
+        但是绝大部分的内链并没有 data-lemma-id属性
+        <a target="_blank" href="/item/GPL">GPL</a>
+        所以我们的url去重还是依靠链接,不能依靠lemma_id,lemma_id统一由解析js中的值取得（作为确保,如果js中不能提取到,到zhixinwrap中取）
+
 """
 import os
 import requests
@@ -22,24 +30,36 @@ class BKDownLoader(object):
         }
 
     def download(self):
+        """
+        下载一个页面需要的全部内容
+        :return:
+            词条lemma_id
+            词条lemma_id_enc
+            词条url
+            词条body
+            喜欢数 & 分享数
+            历史浏览数
+        """
         if len(self._task_list) > 0:
             for task in self._task_list:
                 try:
                     lemma_content = {}
-                    rep = requests.get(task['url'], headers=self.headers)
+                    rep = requests.get(task, headers=self.headers)
                     rep.raise_for_status()
                     rep.encoding = rep.apparent_encoding
                     html_content = rep.text
-                    lemma_content['lemma_id'] = task['lemma_id']
-                    lemma_content['url'] = task['url']
-                    lemma_content['body'] = common_tool.get_tag(html_content, "body")
+
+                    lemma_content['lemma_url'] = task
+                    lemma_content['body'] = common_tool.get_tag(html_content,)
                     if lemma_content['body'] is None:
                         continue
 
+                    lemma_id = common_tool.get_newlemma_id(html_content)
+                    lemma_content['lemma_id'] = lemma_id
                     new_lemmaid_enc = common_tool.get_newlemmaid_enc(html_content)
                     lemma_content['lemmaid_enc'] = new_lemmaid_enc
-                    rep1 = self.get_share_count(task['lemma_id'])
-                    if rep1 is not False:
+                    if lemma_id != 'null':
+                        rep1 = self.get_share_count(lemma_id)
                         lemma_content['like_count'] = rep1['likeCount']
                         lemma_content['share_count'] = rep1['shareCount']
                     else:
@@ -49,19 +69,20 @@ class BKDownLoader(object):
                     if new_lemmaid_enc == "null":
                         lemma_content['history_view_count'] = "null"
                     else:
-                        print(new_lemmaid_enc, type(new_lemmaid_enc))
+                        # print('lemma_id_enc:',new_lemmaid_enc, type(new_lemmaid_enc))
                         rep2 = self.get_view_count(new_lemmaid_enc)
-                        print(rep2)
+                        # print(rep2)
                         if rep2 is not False:
+                            # print('lemma_id:',rep2['pv'])
                             lemma_content['history_view_count'] = rep2['pv']
                         else:
                             lemma_content['history_view_count'] = "null"
                     if lemma_content['body'] is not None:
                         self._content_list.append(lemma_content)
                     else:
-                        print("the %s is missing,check miss.txt" % task['url'])
+                        print("the %s is missing,check miss.txt" % task)
                         with open("miss.txt", "a") as f:
-                            f.write(task['url']+"-"+task['lemma_id']+"\n")
+                            f.write(task+"-"+lemma_content['lemma_id']+"\n")
 
                 except Exception as e:
                     print(e.args)
@@ -129,11 +150,27 @@ class BKDownLoader(object):
 
         return result
 
+    def get_history_list(self, lemma_id, from_,):
+        api = 'https://baike.baidu.com/api/wikiui/gethistorylist'
+        params = {"tk": '8b5f16cee7ebf291a444c3fecf9a22b8',
+                  "lemmaId": lemma_id,
+                  'from': from_,
+                  'count': '1',
+                  'size': '25'}
+        result = self.down_json(api, params)
+
+        if result is False:
+            print("get history edit list failed....")
+
+        return result
+
     def down_json(self, api, params):
         try:
             rep = requests.get(api, params=params,headers=self.headers)
             rep.raise_for_status()
             rep.encoding = rep.apparent_encoding
+            # print(rep.headers['Set-Cookie'])
+            # print(rep.cookies)
             json_data = rep.json()
             return json_data
         except Exception as e:
@@ -142,18 +179,29 @@ class BKDownLoader(object):
 
 
 if __name__ == "__main__":
-    target_urls = [
-        {
-            "lemma_id": 85979,                                                 "url": "http://baike.baidu.com/item/Java"
-        },
-    ]
+    target_urls = ["http://baike.baidu.com/item/Java",
+                   "http://baike.baidu.com/item/av"]
     bkspyder = BKDownLoader()
     bkspyder.add_task_list(target_urls)
-    bkspyder.download()
+    # bkspyder.download()
     # r = bkspyder.get_result_list()
-    # print(r)
-    k = bkspyder.get_share_count(85979)
-    print(k)
-    id_enc = "eca9aca485477e4ed52788f4"
+    # for x in r:
+    #     print(
+    #           x['url'], "\n",
+    #           x['lemma_id'], "\n",
+    #           x['lemmaid_enc'], "\n",
+    #           x['share_count'], "\n",
+    #           x['like_count'], "\n",
+    #           x['history_view_count'], "\n",
+    #           "-------------"
+    #           )
+    # k = bkspyder.get_share_count(85979)
+    # print(k)
+    id_enc = "3b843d6af77dde0f5b245f9e"
     j = bkspyder.get_view_count(id_enc)
     print(j)
+    # ht = bkspyder.download_raw(target_urls[0])
+    # print(ht)
+    #
+    # his = bkspyder.get_history_list('85979', '2')
+    # print(his)
