@@ -6,3 +6,14 @@
 
 # 忽略二级模块下的__pycache__/目录
 */*/__pycache__/
+*/*/*/__pycache__/
+*/*/*/*/__pycache__/
+
+
+# 忽略java工作空间的target/ .idea/
+/service_module/target/
+/service_module/.idea/
+/service_module/*.iml
+/service_module/lib/
+/service_module/out/
+

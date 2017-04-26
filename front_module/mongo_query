@@ -1,0 +1,33 @@
+//统计收集词条数
+db.lemma_contents.count()
+
+//统计历史浏览数大于100000万的词条
+db.lemma_contents.find(
+    //查询条件
+    {
+    'history_view_count':{$gt:10000000},
+    },
+    //过滤显示的行
+    {
+     '_id':0,
+     'lemma_paras':0,
+     'lemmaid_enc':0,
+    }
+).sort({'history_view_count':-1}).pretty()
+
+// 大于10000000浏览次数的词条数目
+db.lemma_contents.find(
+    //查询条件
+    {
+    'history_view_count':{$gt:10000000},
+    }
+).count()
+
+function q(view_count){
+    return db.lemma_contents.find(
+    //查询条件
+    {
+    'history_view_count':{$gt:view_count},
+    }
+).count()
+}

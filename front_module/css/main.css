@@ -1,0 +1,109 @@
+body{
+    margin: 0;
+}
+
+li{
+    list-style: none;
+    /*padding: 0px 10px;*/
+    text-align-last: center;
+}
+
+a{
+    color: #fbf6ff;
+    text-decoration: none;
+    height: inherit;
+    padding: 0px 10px;
+}
+
+a:hover{
+    color: #fad3dd;
+    background: #696d56;
+}
+
+.top-bar{
+    width: inherit;
+    height: 50px;
+    background: #5d545e;
+    padding-right: 20px;
+}
+
+.top-bar-li{
+    width: auto;
+    height: inherit;
+    display: block;
+    float: right;
+    line-height: 50px;
+    text-align: center;
+}
+.site-title{
+    display: block;
+    line-height: 50px;
+    font-family: Garuda;
+    float: left;
+    color: #fbf6ff;
+    font-size: 30px;
+    padding:0px 10px;
+}
+.cluster-icon{
+    /*border: 1px solid rgba(0,0,244,0.25);*/
+    background: rgba(47, 59, 235, 0.15);
+    float: left;
+}
+
+.top-bar-li a{
+    display: block;
+    text-align: center;
+    line-height: 50px;
+}
+
+.main{
+    padding-top: 20px;
+    height:800px;
+    width: auto;
+    background: rgba(255,255,0,0.5);
+}
+
+.footer{
+    height: 150px;
+    background: rgba(200,0,200,0.5);
+}
+
+.word-cloud{
+    margin: auto;
+    width: 80%;
+    height: 500px;
+    background: #6effb1;
+}
+#cloud-dialog{
+    width: 500px;
+    height: 500px;
+    background: #ab99ff;
+}
+.search-dialog{
+    display: block;
+    background: #aa7dff;
+    width: 60%;
+    border-radius: 20px;
+}
+#search-input{
+    border: none;
+    /*border: #aa7dff 0px solid;*/
+    border-radius: 20px 0px 0px 20px;
+    width:80%;
+    height:60px;
+    line-height: 40px;
+    font-size: 40px;
+    padding-left: 20px;
+}
+#search-btn{
+    margin-top: 0px;
+    margin-left: 0px;
+    border: none;
+    border-radius: 0px 20px 20px 0px;
+    background: #aa7dff;
+    height: 60px;
+    line-height: 60px;
+    font-size: 40px;
+    width: 15%;
+}
+
