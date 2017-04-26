@@ -17,3 +17,6 @@
 /service_module/lib/
 /service_module/out/
 
+#忽略echarts.js文件
+/front_module/js/echarts.js
+
