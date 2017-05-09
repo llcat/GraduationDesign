@@ -3,14 +3,41 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+    <!--
+        配置dispatcher需要的WebApplicationContext
+        dispatcher是一个符合JAVAEE标准的Servlet,每个
+        dispatcher都可以拥有自己的ApplicationContext(也就是一个dispatcher
+        servlet需要管理的bean,可以理解为配置文件.默认的配置文件是根据servlet-name命名的,如：
+        <servlet>
+            <servlet-name>dispatcher</servlet-name>
+                <servlet-class>org.springframework.web.servlet.DispatcherServlet
+                </servlet-class>
+            <load-on-startup>1</load-on-startup>
+        </servlet>
+        这样配置的servlet想要起作用,/WEB-INF/下建立一个 <servlet-name>-servlet.xml文件(spring-web.xml)
+        我们可以使用context-param改变这种默认实现，改变配置文件存放的位置
+    -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring-config/spring-*.xml</param-value>
+    </context-param>
 
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value></param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 </web-app>

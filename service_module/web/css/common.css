@@ -1,0 +1,115 @@
+/*
+commons.css:存放共用的样式表
+*/
+
+body{
+    margin: 0;
+}
+
+li{
+    list-style: none;
+    /*padding: 0px 10px;*/
+    text-align-last: center;
+}
+
+a{
+    color: #fbf6ff;
+    text-decoration: none;
+    height: inherit;
+    padding: 0px 10px;
+}
+
+a:hover{
+    color: #fad3dd;
+    background: #696d56;
+}
+
+.top-bar{
+    width: inherit;
+    height: 50px;
+    background: #5d545e;
+    padding-right: 20px;
+}
+
+.top-bar-li{
+    width: auto;
+    height: inherit;
+    display: block;
+    float: right;
+    line-height: 50px;
+    text-align: center;
+}
+.site-title{
+    display: block;
+    line-height: 50px;
+    font-family: Garuda;
+    float: left;
+    color: #fbf6ff;
+    font-size: 30px;
+    padding:0px 10px;
+}
+.cluster-icon{
+    /*border: 1px solid rgba(0,0,244,0.25);*/
+    background: rgba(47, 59, 235, 0.15);
+    float: left;
+}
+
+.top-bar-li a{
+    display: block;
+    text-align: center;
+    line-height: 50px;
+}
+
+#search-dialog{
+    display: inline-block;
+    float: right;
+    width: 20%;
+    padding: 5px;
+    background: #ffffff;
+    margin-right: 20px;
+}
+#search-dialog>h5{
+    margin-bottom: 5px;
+}
+.search-tool{
+    padding-top: 1px;
+    border: none;
+    display: block;
+    background: #aa7dff;
+    width: 100%;
+    border-radius: 20px;
+}
+#search-input{
+    /*border: none;*/
+    border: #aa7dff 1px solid;
+    border-radius: 20px 0px 0px 20px;
+    width:80%;
+    height:40px;
+    line-height: 40px;
+    font-size: 25px;
+    padding-left: 20px;
+
+}
+#search-btn{
+    margin-top: 0px;
+    margin-left: 0px;
+    border: none;
+    border-radius: 0px 20px 20px 0px;
+    background: #aa7dff;
+    height: 40px;
+    line-height: 40px;
+    font-size: 25px;
+    width: 15%;
+}
+#history-search{
+    margin: 20px 5px;
+    background: #ff6f25;
+    width: 90%;
+    height: 200px;
+}
+.history-word{
+    background: #c7ffc6;
+    margin: 3px;
+    display: inline-block;
+    overflow-y: hidden;
+}

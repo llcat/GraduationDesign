@@ -99,7 +99,46 @@ HMM(隐马尔可夫模型)及viterbi算法:
    的浏览数，分享及喜爱数的折线图。
     - 给出提取高频词与人工分类的对比。
     - 聚类结果中的词条与人工分类的近似度
- 
+    
+    
+**进度-week6(04/23 - 04/30)**
+
+  - 修改数据库中几个字段的类型，如lemma_id, like_count,share_count,history_view_count,
+  history_edit_count为整型，方便计算。
+  
+  - 涉及到相关爬虫程序的更改，在存入的时候需要转型。
+  
+  - 增加爬虫程序功能，增加每隔固定时间段，重新采集一次分享数，喜欢数，及历史浏览量，并记录更新时间，需要新建一个collection 如下：
+  
+  
+新增related_infos如下：
+```
+  related_infos={
+  	'lemma_id' : 
+  	'infos':[
+  		{
+  			'like_count' :
+  			'share_count' :
+  			'history_view_count' :
+  			'update_time' : 
+  		},
+  		....
+  		....
+  	]
+  }
+```
+
+    
+**进度-week7(05/01 - 05/07)**
+
+- 重新整理下service_module的代码，dao,service层没有做异常处理,对于频繁使用查询结果集相同的查询操作加上缓存。
+- 继续完成前端页面，主要工作集中在search以及detail页面的编写工作。
+
+- 需要对多个查询字段建立索引，优化查询速度。
+
+- 完成词条聚类实现，能根据聚类结果给出查询结果
+  
+  
 
 **暂定目标**
 

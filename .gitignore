@@ -16,6 +16,8 @@
 /service_module/*.iml
 /service_module/lib/
 /service_module/out/
+/service_module/classes/
+/service_module/web/js/plugins/
 
 #忽略echarts.js文件
 /front_module/js/echarts.js
