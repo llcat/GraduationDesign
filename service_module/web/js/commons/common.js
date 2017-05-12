@@ -5,7 +5,7 @@
 //前端通用组件模块，将大部分公用操作放在这个文件中
 
 common= {
-
+    baseUrl:"http://localhost:8080/",
     history:{
         //存储历史查询记录
         storage:function(searchWord){
@@ -54,16 +54,22 @@ common= {
         show:function () {
             var rawData = common.history.getAll().data;
             var contents = [];
-            for(var i=0;i<contents.length;i++){
-                if(rawData[i].length>10){
-                    contents.push(rawData[i].slice(0,10));
+            for(var i=0;i<rawData.length;i++){
+                if(rawData[i].length>13){
+                    contents.push(rawData[i].slice(0,10)+"...");
                 }else{
                     contents.push(rawData[i]);
                 }
             }
             var tag = "span";
             var re = common.generateTags(tag,contents);
+            $("#word-panel").empty();
             $("#word-panel").append(re);
+            $("#word-panel span").addClass("history-word");
+            var spans = $(".history-word");
+            spans.each(function (index) {
+                $(this).attr("data-history-word",rawData[index]);
+            })
         }
 
     },
@@ -78,6 +84,39 @@ common= {
             re += "<"+tag+">"+contents[i]+"</"+tag+">";
         }
         return re;
+    },
+
+    //封装所有的通用组件的事件响应回调函数
+    events:{
+        home:{
+            cb_search_btn_click:function () {
+                //alert("in cb_search_btn");
+                var q = $("#search-input").val();
+                var path ="result-list/"+q;
+                common.history.storage(q);
+                common.history.show();
+                window.location.href=path;
+            },
+            cb_history_word_click:function (index) {
+                //alert($(".history-word").eq(index).attr("data-history-word"));
+                var word= $(".history-word").eq(index).attr("data-history-word");
+                $("#search-input").val(word);
+            }
+        },
+
+        search:{
+            cb_search_btn_click:function () {
+                alert("in cb_search_btn");
+            },
+            //search页面下所有异步请求的回调函数
+            ajax:{
+
+            }
+        },
+
+        detail:{
+
+        }
     },
     site_icon: {
         id:"top-icon",
@@ -145,6 +184,7 @@ common= {
 };
 
 common.site_icon.draw(20);
+
 
 
 

@@ -39,3 +39,28 @@ function generateAResultShow(info){
 }
 
 showSearchResults()
+
+//监听search-btn的点击事件
+$('#search-btn').click(function () {
+    common.events.search.cb_search_btn_click();
+    $(".history-word").each(function (index) {
+        $(this).click(function () {
+            common.events.home.cb_history_word_click(index);
+        })
+    });
+});
+
+//初始化页面时显示历史记录
+common.history.show();
+
+//历史搜索词绑定点击事件
+$(".history-word").each(function (index) {
+    $(this).click(function () {
+        common.events.home.cb_history_word_click(index);
+    })
+});
+
+$("#delete-button").click(function () {
+    common.history.removeAll();
+    common.history.show();
+});

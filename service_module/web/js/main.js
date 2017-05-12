@@ -40,17 +40,28 @@ $.get("hottags/20").done(function (data) {
     chartOpeartions.update.hot_tag_pie(d);
 });
 
-//监听查询操作
-$('#search-btn').click(
-    function () {
-        var q = $("#search-input").val();
-        var path = "result-list/"+q;
-        common.history.storage(q);
-        window.location.href=path;
-    }
-);
+//监听search-btn的点击事件
+$('#search-btn').click(function () {
+    common.events.home.cb_search_btn_click();
+    //每次点击后应该在绑定一次点击事件,否则返回时新增的历史记录没有被绑定时间
+    $(".history-word").each(function (index) {
+        $(this).click(function () {
+            common.events.home.cb_history_word_click(index);
+        })
+    });
+});
 
 common.history.show();
 
+//历史搜索词绑定点击事件
+$(".history-word").each(function (index) {
+    $(this).click(function () {
+        common.events.home.cb_history_word_click(index);
+    })
+});
 
+$("#delete-button").click(function () {
+    common.history.removeAll();
+    common.history.show();
+})
 

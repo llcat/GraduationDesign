@@ -67,21 +67,26 @@ a:hover{
     padding: 5px;
     background: #ffffff;
     margin-right: 20px;
+    border: rgba(255,255,0,0.8) 2px solid;
+    border-radius: 10px;
 }
 #search-dialog>h5{
-    margin-bottom: 5px;
+    margin-top: 9px;
+    margin-left: 5px;
+    margin-bottom: 9px;
 }
 .search-tool{
     padding-top: 1px;
     border: none;
     display: block;
-    background: #aa7dff;
+    background: rgba(70, 60, 255, 0.3);
     width: 100%;
+    height: 40px;
     border-radius: 20px;
 }
 #search-input{
     /*border: none;*/
-    border: #aa7dff 1px solid;
+    border: rgba(70, 60, 255, 0.3) 1px solid;
     border-radius: 20px 0px 0px 20px;
     width:80%;
     height:40px;
@@ -91,25 +96,76 @@ a:hover{
 
 }
 #search-btn{
+    float: right;
     margin-top: 0px;
     margin-left: 0px;
     border: none;
     border-radius: 0px 20px 20px 0px;
-    background: #aa7dff;
+    background: rgba(70, 60, 255, 0.3);
     height: 40px;
     line-height: 40px;
     font-size: 25px;
-    width: 15%;
+    width: 20%;
+}
+#search-btn:hover{
+    background: rgba(70, 60, 255, 0.8);
 }
 #history-search{
     margin: 20px 5px;
-    background: #ff6f25;
+    /*background: #ff6f25;*/
     width: 90%;
-    height: 200px;
+    height: auto;
+}
+#history-search span{
+    padding-left: 8px;
+}
+
+.delete-history{
+    padding: 5px;
+    font-size: 25px;
+    float: right;
+    color: rgba(10, 22, 6, 0.5);
+}
+
+.delete-history:hover{
+    color: rgba(10, 22, 6, 0.8);
+    cursor: pointer;
+}
+
+.horizon-line{
+    width: 80%;
+    height: 2px;
+    background: rgba(211, 113, 255, 0.6);
+    margin-left: 8px;
+    margin-top: 6px;
+}
+#word-panel{
+    padding: 8px;
 }
 .history-word{
-    background: #c7ffc6;
-    margin: 3px;
+    padding: 3px;
+    background: rgba(255, 146, 131, 0.6);
+    margin: 5px;
     display: inline-block;
-    overflow-y: hidden;
+    border: 2px solid rgba(61, 107, 255, 0.8);
+    border-radius: 5px;
+}
+
+.history-word:hover{
+    background: rgba(236,255,223,0.6);
+    border: 3px solid rgba(101, 110, 255, 0.8);
+    cursor: pointer;
+}
+
+.cluster-footer{
+    width: 100%;
+    height: 150px;
+    background: #906bff;
+}
+
+.copy-right{
+    font-size: 25px;
+    display: block;
+    padding-top: 75px;
+    margin-left: 45%;
 }

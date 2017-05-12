@@ -41,6 +41,8 @@
         </div>
             <div id="history-search">
                 <span>历史搜索：</span>
+                <span id="delete-button" title="删除历史记录" class="delete-history"><i class="fa fa-trash-o fa-fw"></i></span>
+                <div class="horizon-line"></div>
                 <div id="word-panel">
 
                 </div>
@@ -59,7 +61,7 @@
     </div>
 </div>
 <footer class="cluster-footer">
-    <span>&copy;2016 by llcat</span>
+    <span class="copy-right">&copy;2016 by llcat</span>
 </footer>
 </body>
 <script src="../../js/plugins/jquery-3.2.1.js"></script>

@@ -65,8 +65,8 @@ HMM(隐马尔可夫模型)及viterbi算法:
 	"lemma_url" : 
 	"lemmaid_enc" :
 	"lemma_paras" :
-	"lemma_freq_words" :
 	"lemma_tags" : ['tag_a','tag_b']
+	"freq_words" : [(word1, count), (word2, count), ....]
 	"like_count":
 	"share_count":
 	"history_view_count":

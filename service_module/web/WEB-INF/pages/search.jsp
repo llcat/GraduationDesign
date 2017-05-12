@@ -29,6 +29,7 @@
         <a href="#">Docs</a>
     </li>
 </nav>
+<h4 id="keyword">${keyword}</h4>
 <div id="main">
     <div id="search-dialog">
         <h5>尝试搜搜吧！</h5>
@@ -39,17 +40,20 @@
         </div>
         <div id="history-search">
             <span>历史搜索：</span>
+            <span id="delete-button" title="删除历史记录" class="delete-history"><i class="fa fa-trash-o fa-fw"></i></span>
+            <div class="horizon-line"></div>
             <div id="word-panel">
 
             </div>
         </div>
     </div>
+    <div id="lemma-search-list">
+    </div>
 </div>
-<h1 id="title">Search</h1>
-<span id="keyword">${keyword}</span>
-<div id="lemma-search-list">
 
-</div>
+<footer class="cluster-footer">
+    <span class="copy-right">&copy;2016 by llcat</span>
+</footer>
 </body>
 <script src="../../js/plugins/jquery-3.2.1.js"></script>
 <script src="../../js/commons/common.js"></script>
