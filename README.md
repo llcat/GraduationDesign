@@ -138,6 +138,28 @@ HMM(隐马尔可夫模型)及viterbi算法:
 
 - 完成词条聚类实现，能根据聚类结果给出查询结果
   
+  **进度-week8(05/08 - 05/14)**
+
+- 本周完成了词条的聚类实现, 采用了基于密度的聚类算法
+
+- 需要优化, 时间复杂度较高, 暂时还没有确定合适的邻域参数
+
+- 数据库需要新增collection,有的collection需要增加字段如下:
+
+```
+
+\\ 词条的相关信息中增加邻域字段及这个词条的簇标记
+related_infos = {
+	'area': [(id, strength), (id, strength) ...],
+	'cluster_label': 
+}
+
+\\ 新增一个collection
+cluster_result = {
+	'label': 
+	'clusters': [ id, id1, ....]
+}
+```
   
 
 **暂定目标**

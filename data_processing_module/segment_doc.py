@@ -30,10 +30,10 @@ class DBUtil(object):
                 count += 1
                 print(count)
 
-    def update_freq_word(self, add_data):
+    def update_freq_word(self, filters, add_data):
 
         try:
-            self.coll_content.update_one(add_data)
+            self.coll_content.update_one(filters, add_data)
             return True
         except Exception as e:
             print("in add freq word", e.args)
@@ -84,36 +84,38 @@ def seg_frequent_words(doc, **kargs):
 def add_freq_word():
     mongo_util = DBUtil()
     lemma_count = mongo_util.coll_content.count()
-    q_r = mongo_util.get_contents(0,)
+    q_r = mongo_util.get_contents(0, lemma_count)
     for content in q_r:
         if "freq_words" not in content.keys():
             doc = content['lemma_paras']
             f_words = seg_frequent_words(doc,)
+            condition = {
+                            "lemma_id": content['lemma_id']
+                        }
+
             up_data = {
-                {"lemma_id": content['lemma_id']},
-                {
                     "$set": {
                         "freq_words": f_words,
-                    },
+                    }
                 }
-            }
-            mongo_util.update_freq_word(up_data)
+
+            mongo_util.update_freq_word(condition, up_data)
         else:
             print("the lemma has freq_words")
     print("seg all document, task done ...")
 
 if __name__ == "__main__":
-    # db_util = DBUtil()
-    # q = db_util.get_contents(0, db_util.coll_content.count())
+    db_util = DBUtil()
+    q = db_util.get_contents(200, 1)
     # db_util.filter_contents(q, 5000)
-    # do = q[0]['lemma_paras']
-    # print(q[0]['lemma_title'], " ", q[0]['lemma_url'])
-    # l = seg_frequent_words(do,)
+    do = q[0]['lemma_paras']
+    print(q[0]['lemma_title'], " ", q[0]['lemma_url'])
+    l = seg_frequent_words(do,)
     # db_util.coll_segmented_doc.insert_one({'freq_words': l})
-    # print(l)
+    print(l)
     # cursor = db_util.coll_segmented_doc.find_one({})
     # print(cursor['freq_words'])
     # for c in cursor['freq_words']:
     #     print(type(c))
     #     print(c)
-    add_freq_word()
+    # add_freq_word()
