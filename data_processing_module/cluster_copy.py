@@ -39,10 +39,12 @@
     情况如下:
 
 """
-from data_processing_module.segment_doc import DBUtil
+#from data_processing_module.segment_doc import DBUtil
+from segment_doc import DBUtil
 import random
 import pymongo
 import time
+
 
 class DBScan(object):
     """
@@ -70,6 +72,19 @@ class DBScan(object):
             sample['id'] = content['lemma_id']
             sample['title'] = content['lemma_title']
             sample['freq_words'] = content['freq_words']
+            re.append(sample)
+        return re
+
+    def get_existed_samples(self, skip=0, limit=0):
+        if limit == 0:
+            limit = self.coll_related_infos.count()
+
+        q_results = self.coll_related_infos.find(skip=skip, limit=limit)
+        re = []
+        for content in q_results:
+            sample = {}
+            sample['id'] = content['lemma_id']
+            sample['area'] = content['area']
             re.append(sample)
         return re
 
@@ -184,12 +199,13 @@ class DBScan(object):
 
             # 从样本集合中去除本次循环的核心
             samples.remove(core)
-            # 记录本轮核心点中其他核心点的邻域
+            # 本轮密度可达的核心点集合
+            reachable_core = {}
+            reachable_core[core['id']] = core['area']
             while len(access_set) > 0:
                 # print("第二层循环中", len(samples))
                 # 遍历密度直达的集合,加入到聚类结果中
                 pt_id = access_set.pop()
-                # 这里需要改进，当样本点较大时，不要进行遍历查找，直接从数据库中取
                 pt = self.find_pt(samples, pt_id)
 
                 if pt is not None:
@@ -197,27 +213,47 @@ class DBScan(object):
                     # 假设一个样本点跟多个核心点都有关联,不应该将其随便
                     # 从样本集合中去除添加进簇，应该考虑这个点跟那个核心点的连通强度是最高的
 
-                    strength_this = self.get_strength(core, pt_id)
+                    # 后续加入的点不一定是密度直达的点，不能这样算强度
+                    strength_this = 0
+                    for a in core['area']:
+                        if pt_id == a[0]:
+                            strength_this = a[1]
+                            # print("pt direct in this core", strength_this)
+                            break
+
                     if strength_this == 0:
-                        print("the pt is not belong this core")
+                        # 不是直达的那么就是密度可达的,就算本轮还暂时不在已访问的密度可达核心队列中也没关系，后续遍历到这个与他连通最大的核心点时还是会将该点归簇
+                        for key, v in reachable_core.items():
+                            for vi in v:
+                                if pt_id == vi[0] and vi[1] >= strength_this:
+                                    strength_this = vi[1]
+                                    # print("in reachable core")
 
                     strength_max = 0
                     for c in core_pts:
+                        # 如果这个可达点是核心点，这里会造成问题是他与自身连通强度最大，所以需要加一个判断条件
                         if c['id'] != pt_id:
+                            # core_pts中肯定已经除去了他的直达核心点
+                            # 需要考虑的仅有他的可达核心点会不会造成干扰
                             s = self.get_strength(c, pt_id)
+
                         if s > strength_max:
                             strength_max = s
 
                     if strength_this > strength_max:
                         samples.remove(pt)
                         clusters[str(k)].append(pt)
-
+                        # print("pt", pt['id'], " area len", len(pt['area']))
                         if len(pt['area']) >= minpts:
                             # 如果pt是个核心点,从核心点集合中移除该点并遍历pt的邻域,更新密度可达集合
+                            # print(pt['id'], "is a core")
+                            reachable_core[pt['id']] = pt['area']
                             core_pts.remove(pt)
                             for pt in pt['area']:
                                 access_set.add(pt[0])
-
+                    else:
+                        # print(pt['id'], "has another strength core")
+                        pass
                 else:
                     # print("the pt id is", pt_id, " had collected in cluster")
                     pass
@@ -225,6 +261,11 @@ class DBScan(object):
             t2 = time.time()
             cost_time = t2-t1
             all_cost_time += cost_time
+            # if len(clusters[str(k)]) == 1:
+            #     pt_no_cluster = clusters[str(k)].pop()
+            #     samples.append(pt_no_cluster)
+            #     k += 0
+            # else:
             print("生成第", k, "簇", "剩余样本数：", len(samples), "消耗时间：", round(cost_time, 3), "second")
             # 更新簇标记
             k += 1
@@ -281,27 +322,33 @@ class DBScan(object):
 
 if __name__ == "__main__":
     dbscan = DBScan()
-    area_strength = 5
-    min_access = 3
-    r = dbscan.init_sample_collection(0,)
+    area_strength = 3
+    min_access = 5
+    # r = dbscan.init_sample_collection(5, 2000)
 
-    cores = dbscan.all_sample_area(r, area_strength, min_access)
-    dbscan.save_area(r)
+    # cores = dbscan.all_sample_area(r, area_strength, min_access)
+    # dbscan.save_area(r)
+    r = dbscan.get_existed_samples(0,)
+    cores = dbscan.get_core_sample(r, min_access)
+
     print("核心对象数目:", len(cores))
 
     c_result = dbscan.cluster(cores, r, min_access)
     dbscan.save_result(c_result)
     print("聚类数目: ", len(c_result))
-    # length = 0
-    #
-    # for i in range(len(c_result)):
-    #     print("类簇 - ", i)
-    #     c = c_result.get(str(i))
-    #     for item in c:
-    #         length += 1
-    #         print(item['title'], item['freq_words'])
-    #
-    # print("已经聚类的样本数目:", length)
+    length = 0
+    count_one = 0
+    for i in range(len(c_result)):
+        print("类簇 - ", i)
+        c = c_result.get(str(i))
+        if len(c) ==1:
+            count_one +=1
+        for item in c:
+            length += 1
+            print(item['id'], item['area'])
+
+    print("已经聚类的样本数目:", length, "单簇只有一个元素数目：", count_one)
+
     # for c in cores:
     #     print(c['title'], c['area'])
 

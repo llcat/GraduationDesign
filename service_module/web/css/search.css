@@ -1,18 +1,86 @@
 #main{
-    height: 600px;
+
+}
+#title-panel{
+    width: 80%;
+}
+#title{
+    display: inline-block;
+    width: 50%;
+    background: rgba(255,247,108,0.8);
+    padding-left: 10px;
+}
+#show-options{
+    display: inline-block;
+    width: 40%;
+    background: rgba(222,255,142,0.8);
+}
+.choice{
+    margin-left: 20px;
+    padding: 5px;
+    font-size: 20px;
+    border-radius: 4px;
+}
+#side-tool-bar{
+    position: fixed;
+}
+#search-dialog{
+    position: fixed;
+    right: 10px;
+}
+#lemma-search-list{
     width: 75%;
+    min-height: 400px;
     background: rgba(254,255,225,0.8);
     border: 4px solid rgba(92, 255, 134, 0.8);
     border-radius: 20px;
 }
-
-#lemma-search-list div{
-    width: 60%;
-    background: #71e4ff;
-    margin-bottom: 5px;
+#key-result{
+    background: rgba(255,40,78,0.8);
+    min-height: 150px;
+    padding: 20px;
+    border-radius: 10px;
+    margin:20px 10px;
 }
-#lemma-search-list div span{
-    display: block;
+#tag-result{
+    background: rgba(183,255,159,0.8);
+    min-height: 150px;
+    padding: 20px;
+    border-radius: 10px;
+    margin:20px 10px;
+}
+#cluster-result{
+    background: rgba(44,50,255,0.8);
+    min-height: 150px;
+    padding: 20px;
+    border-radius: 10px;
+    margin:20px 10px;
+}
+.result-panel{
+    padding: 10px;
+    background: rgba(255,220,189,0.8);
+    min-height: 100px;
+    margin: 15px;
+}
+.result-title{
+    font-size: 20px;
+    background: rgba(255,117,85,0.8);
+    color: rgba(16,8,22,0.8);
+}
+.divide{
+    margin-top: 5px;
+    background: rgba(255,105,66,0.8);
+    height: 2px;
     width: 50%;
-    background: #ff5f7e;
+}
+.result-related-infos{
+    background: rgba(75,236,255,0.8);
+    min-height: 30px;
+}
+.related-info{
+    font-size: 15px;
+    background: rgba(236,159,255,0.8);
+}
+.page-list{
+
 }

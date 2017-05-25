@@ -15,6 +15,11 @@ home_page={
                 left:"center"
             },
             tooltip: {},
+            toolbox: {
+                feature: {
+                    saveAsImage: {show: true}
+                }
+            },
             series: [{
                 type: 'wordCloud',
                 gridSize: 20,
@@ -64,6 +69,11 @@ home_page={
                     type: 'shadow'
                 }
             },
+            toolbox: {
+                feature: {
+                    saveAsImage: {show: true}
+                }
+            },
             legend: {
                 data: ['包含词条']
             },
@@ -103,6 +113,11 @@ home_page={
             tooltip : {
                 trigger: 'item',
                 formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {show: true}
+                }
             },
             legend: {
                 orient: 'vertical',

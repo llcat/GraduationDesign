@@ -4,6 +4,7 @@ import entity.Lemma;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by ypl on 17-4-26.
@@ -20,7 +21,7 @@ public interface LemmaContentsDAO {
     List<String> getShareTop(int top);
 
     //返回关键字在tags中的词条
-    List<String> getKeyInTags(String key);
+    List<Lemma> getKeyInTags(String key);
 
     //返回关键字在提取的高频词中的词条
     List<String> getKeyInFreqWords(String key);
@@ -30,4 +31,14 @@ public interface LemmaContentsDAO {
 
     List<String> getLemmaByKey(String key);
     long getCollCount();
+
+    //根据键值查询相关词条词条id
+    List<Integer> getIdBeyKey(String key);
+
+    //根据id查找词条的领域相关的点
+    Lemma getLemmaById(int id);
+
+    //根据一组id取得所有的领域点id,去重
+    Set<Integer> getAreaByIdList(List<Integer> idList);
+
 }

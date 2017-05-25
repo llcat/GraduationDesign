@@ -89,6 +89,40 @@ chartOpeartions={
         }
     },
 
+    //封装所有的图表的事件
+    events:{
+        word_cloud:{
+            on_click:function () {
+                chart_lemma_cloud.on('click',function (params) {
+                    console.log(params);
+                    var q = params.name;
+                    $("#search-input").val(q);
+                    common.events.home.cb_search_btn_click();
+                });
+            }
+        },
+        hot_tags:{
+            on_click:function () {
+                chart_hot_tags.on('click',function (params) {
+                   //console.log(params);
+                    var q = params.name;
+                    $("#search-input").val(q);
+                    common.events.home.cb_search_btn_click();
+                });
+            }
+        },
+        hot_tag_pie:{
+            on_click:function () {
+                alert("in tag pie on click");
+                chart_hottag_pie.on('click',function (params) {
+                    console.log(params);
+                    var q = params.name;
+                    $("#search-input").val(q);
+                    common.events.home.cb_search_btn_click();
+                });
+            }
+        },
+    },
     //转化后端传递的json数据为表格需要的数据格式
     //函数命名规则: h表示home页面下的charts, 0表示第一个format函数
     formatJson:{

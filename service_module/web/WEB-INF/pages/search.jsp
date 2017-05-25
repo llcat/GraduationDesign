@@ -29,25 +29,46 @@
         <a href="#">Docs</a>
     </li>
 </nav>
-<h4 id="keyword">${keyword}</h4>
-<div id="main">
-    <div id="search-dialog">
-        <h5>尝试搜搜吧！</h5>
-        <div class="search-tool">
-            <input id="search-input">
-            <button id="search-btn"><i class="fa fa-search" aria-hidden="true"></i>
-            </button>
-        </div>
-        <div id="history-search">
-            <span>历史搜索：</span>
-            <span id="delete-button" title="删除历史记录" class="delete-history"><i class="fa fa-trash-o fa-fw"></i></span>
-            <div class="horizon-line"></div>
-            <div id="word-panel">
 
+<div id="main">
+    <div id="title-panel">
+        <div id="title">
+            <h4 id="keyword">${keyword}</h4>
+        </div>
+        <div id="show-options">
+            <span id="choice-key" class="choice" data-flag="1">key</span>
+            <span id="choice-tag" class="choice-tag" data-flag="1">tag</span>
+            <span id="choice-cluster" class="choice-cluster" data-flag="1">cluster</span>
+        </div>
+    </div>
+    <div id="side-tool-bar">
+        <div id="search-dialog">
+            <h5>尝试搜搜吧！</h5>
+            <div class="search-tool">
+                <input id="search-input">
+                <button id="search-btn"><i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div id="history-search">
+                <span>历史搜索：</span>
+                <span id="delete-button" title="删除历史记录" class="delete-history"><i class="fa fa-trash-o fa-fw"></i></span>
+                <div class="horizon-line"></div>
+                <div id="word-panel">
+
+                </div>
             </div>
         </div>
     </div>
     <div id="lemma-search-list">
+        <div id="key-result">
+
+        </div>
+        <div id="tag-result">
+
+        </div>
+        <div id="cluster-result">
+
+        </div>
     </div>
 </div>
 

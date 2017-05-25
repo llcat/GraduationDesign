@@ -1,6 +1,7 @@
 package controller;
 
 import dto.QueryResult;
+import entity.Lemma;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,10 +37,16 @@ public class QueryController {
         return queryService.queryByKey(key).toString();
     }
 
-    @RequestMapping(value = "/searchInTags/{key}",produces = "application/json ;charset=UTF-8")
+    @RequestMapping(value = "/searchInTags/{key}/{page}",produces = "application/json ;charset=UTF-8")
     @ResponseBody
-    public String searchInTags(@PathVariable("key")String key){
-        return queryService.queryInTags(key).toString();
+    public QueryResult<List<Lemma>> searchInTags(@PathVariable("key")String key, @PathVariable("page")int page){
+        return queryService.queryInTags(key,page);
+    }
+
+    @RequestMapping(value = "/searchByCluster/{key}/{page}",produces = "application/json ;charset=UTF-8")
+    @ResponseBody
+    public QueryResult<List<Lemma>> searchByCluster(@PathVariable("key")String key,@PathVariable("page")int page){
+        return queryService.queryByCluster(key,page);
     }
 
     @RequestMapping("/{lemma}/detail")

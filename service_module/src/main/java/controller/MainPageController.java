@@ -31,7 +31,7 @@ public class MainPageController {
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String home(Model model){
-        System.out.println("get a rquest");
+        System.out.println("get a rquest in home");
         return "home";
     }
     @RequestMapping(value = "/topview",produces = "application/json;charset=UTF-8")

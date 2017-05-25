@@ -85,7 +85,40 @@ common= {
         }
         return re;
     },
-
+    //根据传入的标签名和id或者class数组生成一颗两层的dom树，如果css数组长度一，子节点不添加id或class,如果长度为2,为所有子节点添加相同class,如果长度大于3,那么节点数目与css数组长度相等
+    //如果tags数组长度为3,且tags[2]为数字，并保证css数组长度为2,生成一组指定数目的相同节点
+    genarateDom:function (tags, csses) {
+        if(tags.length==0){
+            return "tags length is 0";
+        }
+        if(tags.length!=0 && csses.length==0){
+            var p = "<"+tags[0]+">";
+            for(var i=1;i<tags.length;i++){
+                p += "<"+tags[i]+"></"+tags[i]+">";
+            }
+            p+="</"+tags[0]+">";
+            return p;
+        }
+        //对多个不同的tag赋予不同的class
+        if(tags.length == csses.length){
+            var p = "<"+tags[0]+" class=\""+csses[0]+"\""+">";
+            for(var i=1;i<tags.length;i++){
+                p+="<"+tags[i]+" class=\""+csses[i]+"\""+">"+"</"+tags[i]+">";
+            }
+            p += "</"+tags[0]+">";
+            return p;
+        }
+        //对多个相同的tag赋予相同的class
+        if(tags.length==3&&csses.length==2){
+            var p = "<"+tags[0]+" id=\""+csses[0]+"\""+">";
+            for(var i=0;i<tags[2];i++){
+                p += "<"+tags[1]+" class=\""+csses[1]+"\""+">"+"</"+tags[1]+">";
+            }
+            p += "</"+tags[0]+">";
+            return p;
+        }
+        return "error";
+    },
     //封装所有的通用组件的事件响应回调函数
     events:{
         home:{
@@ -95,7 +128,7 @@ common= {
                 var path ="result-list/"+q;
                 common.history.storage(q);
                 common.history.show();
-                window.location.href=path;
+                window.open(path,"_blank");
             },
             cb_history_word_click:function (index) {
                 //alert($(".history-word").eq(index).attr("data-history-word"));
@@ -106,12 +139,13 @@ common= {
 
         search:{
             cb_search_btn_click:function () {
-                alert("in cb_search_btn");
+                var q = $("#search-input").val();
+                var path =common.baseUrl+"result-list/"+q;
+                common.history.storage(q);
+                common.history.show();
+                window.open(path,"_blank");
             },
-            //search页面下所有异步请求的回调函数
-            ajax:{
 
-            }
         },
 
         detail:{

@@ -9,6 +9,8 @@ public class QueryResult<T> {
     private T data;
     private String errorinfo;
 
+    //用于支持分页操作
+    private int total;
     //Controller执行成功返回需要的信息和标示。
     public QueryResult(boolean success, T data) {
         super();
@@ -21,6 +23,13 @@ public class QueryResult<T> {
         this.success = success;
         this.errorinfo = errorinfo;
     }
+
+    public QueryResult(boolean success, T data, int total) {
+        this.success = success;
+        this.data = data;
+        this.total = total;
+    }
+
     /**
      * @return the success
      */
@@ -57,4 +66,13 @@ public class QueryResult<T> {
     public void setErrorinfo(String errorinfo) {
         this.errorinfo = errorinfo;
     }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
 }

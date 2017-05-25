@@ -28,6 +28,7 @@ $.get("/topview").done(function (data) {
     var f_data = chartOpeartions.formatJson.h_ft0(data);
     chartOpeartions.update.word_cloud(f_data[0]);
     chartOpeartions.update.hot_lemma_infos(f_data[1]);
+    chartOpeartions.events.word_cloud.on_click();
 });
 
 $.get("hottags/20").done(function (data) {
@@ -38,6 +39,9 @@ $.get("hottags/20").done(function (data) {
         data:f_data[1]
     }
     chartOpeartions.update.hot_tag_pie(d);
+    //绑定图表点击事件
+    chartOpeartions.events.hot_tags.on_click();
+    chartOpeartions.events.hot_tag_pie.on_click();
 });
 
 //监听search-btn的点击事件

@@ -16,6 +16,7 @@ import java.util.*;
 public class MainService {
 
     private LemmaContentsDAO lemmaDao;
+    private Map<String,List<Tag>> cache= new HashMap<String,List<Tag>>();
 
     @Autowired
     public MainService(LemmaContentsDAO dao){
@@ -27,6 +28,10 @@ public class MainService {
     }
 
     public List<Tag> getHotTags(int top){
+        if(cache.get("hotTags")!=null){
+            List<Tag> tagList = cache.get("hotTags");
+            return tagList.subList(0,top);
+        }
         List<Tag> re = new ArrayList<>();
         Map<String,Integer> map = lemmaDao.getAllTags();
         List<Map.Entry<String,Integer>> tempList = new ArrayList(map.entrySet());
@@ -43,6 +48,7 @@ public class MainService {
             Tag tag = new Tag(name,count);
             re.add(tag);
         }
+        cache.put("hotTags",re);
         return re.subList(0,top);
     }
 

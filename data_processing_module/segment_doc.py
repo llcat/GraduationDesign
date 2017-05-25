@@ -112,6 +112,7 @@ if __name__ == "__main__":
     print(q[0]['lemma_title'], " ", q[0]['lemma_url'])
     l = seg_frequent_words(do,)
     # db_util.coll_segmented_doc.insert_one({'freq_words': l})
+    print(q[0]['lemma_title'], " ", q[0]['lemma_url'])
     print(l)
     # cursor = db_util.coll_segmented_doc.find_one({})
     # print(cursor['freq_words'])

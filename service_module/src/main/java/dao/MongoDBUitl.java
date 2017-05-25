@@ -30,6 +30,7 @@ public class MongoDBUitl {
         existedColl.add("lemma_contents");
         existedColl.add("old_uls");
         existedColl.add("new_urls");
+        existedColl.add("related_infos");
     }
 
     public MongoCollection getColl(String collName) {
