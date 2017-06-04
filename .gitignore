@@ -20,5 +20,6 @@
 /service_module/web/js/plugins/
 
 #忽略echarts.js文件
-/front_module/js/echarts.js
+/front_module/
+/help_others/
 
