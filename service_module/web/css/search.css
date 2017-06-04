@@ -2,9 +2,13 @@
 
 }
 #title-panel{
+    margin-top: 5px;
+    margin-bottom: 8px;
+    margin-left: 5px;
     width: 80%;
 }
 #title{
+    border-radius: 5px;
     display: inline-block;
     width: 50%;
     background: rgba(255,247,108,0.8);
@@ -14,12 +18,27 @@
     display: inline-block;
     width: 40%;
     background: rgba(222,255,142,0.8);
+    min-height:60px;
+    align-content: center;
 }
 .choice{
+    display: inline-block;
+    min-width: 50px;
+    margin-top: 10px;
     margin-left: 20px;
     padding: 5px;
     font-size: 20px;
     border-radius: 4px;
+    text-align: center;
+}
+#choice-key{
+    background: rgba(255,40,78,0.8);
+}
+#choice-tag{
+    background: rgba(117,255,77,0.8);
+}
+#choice-cluster{
+    background: rgba(79,75,255,0.8);
 }
 #side-tool-bar{
     position: fixed;
@@ -57,10 +76,25 @@
     margin:20px 10px;
 }
 .result-panel{
+    position: relative;
+    width: 80%;
     padding: 10px;
-    background: rgba(255,220,189,0.8);
-    min-height: 100px;
+    background: rgba(255, 231, 170, 0.8);
+    min-height: 80px;
     margin: 15px;
+}
+.rank-info{
+    min-width: 50px;
+    min-height: 100px;
+    position: absolute;
+    top: 0px;
+    right: -50px;
+    display: inline-block;
+    font-size: 35px;
+    line-height: 100px;
+    text-align: center;
+    color: #e6efff;
+    background: #3b3e44;
 }
 .result-title{
     font-size: 20px;
@@ -74,13 +108,45 @@
     width: 50%;
 }
 .result-related-infos{
-    background: rgba(75,236,255,0.8);
+    margin-top: 10px;
+    /*background: rgba(75,236,255,0.8);*/
     min-height: 30px;
 }
 .related-info{
+    margin-top: 5px;
+    margin-left: 35px;
+    display: inline-block;
     font-size: 15px;
     background: rgba(236,159,255,0.8);
 }
-.page-list{
+.related-info i{
+    margin-right: 10px;
+}
 
+.page-list{
+    margin-left: 50%;
+    min-height: 30px;
+}
+.change{
+    padding: 3px 6px;
+    display: inline-block;
+    color: rgba(230,239,255,0.8);
+    background: rgba(129,169,255,0.8);
+    margin-right: 25px;
+    min-height: 30px;
+    font-size: 20px;
+    align-content: center;
+}
+.change:hover{
+    cursor: pointer;
+    background: rgba(119, 109, 255, 0.8);
+}
+.page-info{
+    padding: 5px;
+    display: inline-block;
+    color: #34252c;
+    margin-right: 25px;
+    min-height: 30px;
+    font-size: 20px;
+    align-content: center;
 }

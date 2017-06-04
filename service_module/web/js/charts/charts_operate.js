@@ -135,7 +135,11 @@ chartOpeartions={
                 lemma_share:new Array,
                 lemma_viewd:new Array()
             };
+            var filter = ['AV女优','性生活','sm','情色电影','肾虚'];
             for (var i = 0; i < data.length; i++) {
+                if(filter.indexOf( data[i]['lemma_title'])>-1){
+                    continue;
+                }
                 var title = data[i]['lemma_title'];
                 var like = data[i]['like_count'];
                 var share = data[i]['share_count'];

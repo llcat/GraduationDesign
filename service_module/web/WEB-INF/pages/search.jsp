@@ -37,8 +37,8 @@
         </div>
         <div id="show-options">
             <span id="choice-key" class="choice" data-flag="1">key</span>
-            <span id="choice-tag" class="choice-tag" data-flag="1">tag</span>
-            <span id="choice-cluster" class="choice-cluster" data-flag="1">cluster</span>
+            <span id="choice-tag" class="choice" data-flag="1">tag</span>
+            <span id="choice-cluster" class="choice" data-flag="1">cluster</span>
         </div>
     </div>
     <div id="side-tool-bar">

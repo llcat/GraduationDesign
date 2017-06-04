@@ -328,13 +328,13 @@ if __name__ == "__main__":
 
     # cores = dbscan.all_sample_area(r, area_strength, min_access)
     # dbscan.save_area(r)
-    r = dbscan.get_existed_samples(0,)
+    r = dbscan.get_existed_samples(0,2000)
     cores = dbscan.get_core_sample(r, min_access)
 
     print("核心对象数目:", len(cores))
 
     c_result = dbscan.cluster(cores, r, min_access)
-    dbscan.save_result(c_result)
+    # dbscan.save_result(c_result)
     print("聚类数目: ", len(c_result))
     length = 0
     count_one = 0
